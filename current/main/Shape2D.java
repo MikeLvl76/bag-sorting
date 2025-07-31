@@ -1,10 +1,10 @@
 import java.util.Map;
 
-public class Surface extends Shape implements AreaSurfaceCalculator {
+public class Shape2D extends Shape implements AreaCalculator {
 
     private double area;
 
-    public Surface(String _name, Map<String, Double> map) {
+    public Shape2D(String _name, Map<String, Double> map) {
         this.setName(_name);
         this.setDimension(2);
         this.setCanStack(false);

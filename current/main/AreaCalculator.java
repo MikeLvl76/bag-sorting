@@ -1,4 +1,4 @@
-public interface AreaSurfaceCalculator {
+public interface AreaCalculator {
     default double getSquareArea(double width, double length) {
         return width * length;
     }
