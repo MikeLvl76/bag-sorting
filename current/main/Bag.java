@@ -13,6 +13,14 @@ public class Bag {
         return this.content;
     }
 
+    public Shape getItem(int index) {
+        try {
+            return this.content.get(index);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+    }
+
     public int getMaxSize() {
         return this.maxSize;
     }
@@ -37,11 +45,11 @@ public class Bag {
             if (this.content.isEmpty()) {
                 builder.append("[x]");
             } else {
-                Shape current = this.content.get(i);
+                Shape current = this.getItem(i);
                 if (current == null) {
                     builder.append("[x]");
                 } else {
-                    builder.append("[" + current.getName().charAt(0) + "]");
+                    builder.append("[" + Character.toUpperCase(current.getName().charAt(0)) + "]");
                 }
             }
             if ((i + 1) % 4 == 0 && i != this.maxSize - 1) {
