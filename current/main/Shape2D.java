@@ -19,49 +19,31 @@ public class Shape2D extends Shape implements AreaCalculator {
     public void calculateArea() {
         switch (this.name) {
             case "square":
-                double width = this.getAttributeValue("width");
-                double length = this.getAttributeValue("length");
-                this.area = getSquareArea(width, length);
+                this.area = getSquareArea(this.getAttributeValue("width"), this.getAttributeValue("length"));
                 break;
 
             case "triangle":
-                double base = this.getAttributeValue("base");
-                double l = this.getAttributeValue("length");
-                this.area = getTriangleArea(base, l);
+                this.area = getTriangleArea(this.getAttributeValue("base"), this.getAttributeValue("length"));
                 break;
 
             case "circle":
-                double radius = this.getAttributeValue("radius");
-                this.area = getCircleArea(radius);
+                this.area = getCircleArea(this.getAttributeValue("radius"));
                 break;
-
 
             case "trapezium":
-                double a = this.getAttributeValue("a");
-                double b = this.getAttributeValue("b");
-                double height = this.getAttributeValue("height");
-                this.area = getTrapeziumArea(a, b, height);
+                this.area = getTrapeziumArea(this.getAttributeValue("a"), this.getAttributeValue("b"), this.getAttributeValue("height"));
                 break;
-
 
             case "parallelogram":
-                double _base = this.getAttributeValue("base");
-                double h = this.getAttributeValue("h");
-                this.area = getParallelogramArea(_base, h);
+                this.area = getParallelogramArea(this.getAttributeValue("base"), this.getAttributeValue("height"));
                 break;
-
 
             case "rhombus":
-                double _b = this.getAttributeValue("base");
-                double _h = this.getAttributeValue("h");
-                this.area = getRhombusArea(_b, _h);
+                this.area = getRhombusArea(this.getAttributeValue("base"), this.getAttributeValue("height"));
                 break;
 
-
             case "polygon":
-                int sides = (int) this.getAttributeValue("sides");
-                double _length = this.getAttributeValue("length");
-                this.area = getRegularPolygonArea(sides, _length);
+                this.area = getRegularPolygonArea((int) this.getAttributeValue("sides"), this.getAttributeValue("length"));
                 break;
         
             default:

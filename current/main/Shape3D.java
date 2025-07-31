@@ -18,48 +18,35 @@ public class Shape3D extends Shape implements VolumeCalculator {
     public void calculateVolume() {
         switch (this.name) {
             case "cube":
-                double length = this.getAttributeValue("length");
-                this.volume = getCubeVolume(length);
+                this.volume = getCubeVolume(this.getAttributeValue("length"));
                 break;
 
             case "rect":
-                double width = this.getAttributeValue("width");
-                double _length = this.getAttributeValue("length");
-                double depth = this.getAttributeValue("depth");
-                this.volume = getRectVolume(width, _length, depth);
+                this.volume = getRectVolume(this.getAttributeValue("width"), this.getAttributeValue("length"), this.getAttributeValue("depth"));
                 break;
 
             case "cylinder":
-                double radius = this.getAttributeValue("radius");
-                double height = this.getAttributeValue("height");
-                this.volume = getCylinderVolume(radius, height);
+                this.volume = getCylinderVolume(this.getAttributeValue("radius"), this.getAttributeValue("height"));
                 break;
 
 
             case "cone":
-                double r = this.getAttributeValue("radius");
-                double h = this.getAttributeValue("height");
-                this.volume = getConeVolume(r, h);
+                this.volume = getConeVolume(this.getAttributeValue("radius"), this.getAttributeValue("height"));
                 break;
 
 
             case "sphere":
-                double _radius = this.getAttributeValue("radius");
-                this.volume = getSphereVolume(_radius);
+                this.volume = getSphereVolume(this.getAttributeValue("radius"));
                 break;
 
 
             case "pyramid":
-                double baseArea = this.getAttributeValue("base-area");
-                double _h = this.getAttributeValue("height");
-                this.volume = getPyramidVolume(baseArea, _h);
+                this.volume = getPyramidVolume(this.getAttributeValue("base-area"), this.getAttributeValue("height"));
                 break;
 
 
             case "prism":
-                double polygonBaseArea = this.getAttributeValue("polygon-base-area");
-                double _height = this.getAttributeValue("height");
-                this.volume = getPrismVolume(polygonBaseArea, _height);
+                this.volume = getPrismVolume(this.getAttributeValue("polygon-base-area"), this.getAttributeValue("height"));
                 break;
         
             default:
