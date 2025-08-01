@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
         // Map<String, Double> map = Map.of("width", 2.0, "length", 6.0);
@@ -12,18 +14,20 @@ public class Main {
         // rect.calculateVolume();
         // System.out.println("Volume of rect: " + rect.getVolume());
 
-        Bag bag = new Bag();
-        ShapeGenerator generator = new ShapeGenerator(10);
+        Bag bag = new Bag(16, 4);
+        ShapeGenerator generator = new ShapeGenerator(1);
         generator.shapes();
 
         System.out.println(bag);
-        System.out.println(generator.getShapes());
+        // System.out.println(generator.getShapes());
 
         for (Shape shape : generator.getShapes()) {
-            bag.insertInto(shape);
+            //bag.insertInto(shape);
+            ArrayList<Shape> column = bag.insertIntoColumn(0, shape);
+            System.out.println(column);
         }
 
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < bag.stackCount(); i++){
             bag.displayColumn(i);
         }
 
