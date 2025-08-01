@@ -3,10 +3,13 @@ import java.util.ArrayList;
 public class Bag {
     private ArrayList<Shape> content;
     private int maxSize;
+    private int bagWidth;
 
     public Bag() {
+        this.maxSize = 16;
+        this.bagWidth = (int) this.maxSize / 4;
         this.content = new ArrayList<>();
-        this.maxSize = 12;
+        this.content.ensureCapacity(this.maxSize);
     }
 
     public ArrayList<Shape> getContent() {
@@ -39,6 +42,23 @@ public class Bag {
         this.maxSize = max;
     }
 
+    public ArrayList<Shape> getColumn(int colIndex) {
+        ArrayList<Shape> column = new ArrayList<>();
+        int offset = this.bagWidth - colIndex;
+
+        for (int i = this.maxSize; i > 0; i--) {
+            if ((i - 1) % offset == 0) {
+                Shape shape = this.getItem(i);
+                if (shape == null) {
+                    break;
+                }
+                column.add(shape);
+            }
+        }
+
+        return column;
+    }
+
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < this.maxSize; i++) {
@@ -52,7 +72,7 @@ public class Bag {
                     builder.append("[" + Character.toUpperCase(current.getName().charAt(0)) + "]");
                 }
             }
-            if ((i + 1) % 4 == 0 && i != this.maxSize - 1) {
+            if ((i + 1) % this.bagWidth == 0 && i != this.maxSize - 1) {
                 builder.append("\n");
             }
         }

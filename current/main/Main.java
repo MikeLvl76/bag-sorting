@@ -1,4 +1,4 @@
-import java.util.Map;
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,6 +16,12 @@ public class Main {
 
         Bag bag = new Bag();
         System.out.println(bag);
+
+        for (int i = 0; i < 4; i++){
+            ArrayList<Shape> column = bag.getColumn(i);
+            System.out.println(column);;
+        }
+
         System.out.println("TODO: Main class");
     }
 }
