@@ -1,10 +1,11 @@
+import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Shape {
     protected String name;
     protected int dimension;
     protected Boolean canStack;
-    protected Map<String, Double> attributes;
+    protected Map<String, Double> attributes = new HashMap<>();
 
     protected String getName() {
         return this.name;
@@ -54,8 +55,8 @@ public abstract class Shape {
         if (map == null || map.size() == 0) {
             return;
         }
-        if (this.attributes == null) {
-            this.attributes = map;
+        if (this.attributes.isEmpty()) {
+            this.attributes.putAll(map);
             return;
         }
         for (Map.Entry<String, Double> entry : map.entrySet()) {
@@ -65,5 +66,24 @@ public abstract class Shape {
             }
             this.attributes.replace(entry.getKey(), entry.getValue());
         }
+    }
+
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("{");
+        builder.append(String.format("name: %s, ", this.name));
+        builder.append(String.format("dimension: %s, ", this.dimension));
+        int index = 0;
+        for (Map.Entry<String, Double> entry : this.attributes.entrySet()) {
+            String format = "%s: %f";
+            if (index < this.attributes.size() - 1) {
+                format += ", ";  
+            }
+            builder.append(String.format(format, entry.getKey(), entry.getValue()));
+            index++;
+        }
+        builder.append("}");
+
+        return builder.toString();
     }
 }

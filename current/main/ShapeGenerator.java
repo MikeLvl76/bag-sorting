@@ -1,0 +1,98 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+public class ShapeGenerator {
+    
+    private final Random random = new Random();
+    private final Map<String, String[]> attributes = new HashMap<>();
+    private int number;
+    private ArrayList<Shape> shapes;
+
+    public ShapeGenerator(int number) {
+        this.number = number;
+        this.shapes = new ArrayList<>();
+        this.shapes.ensureCapacity(this.number);
+        this.initAttributes();
+    }
+
+    private void initAttributes() {
+        String[] squareAttrs = {"width", "length"};
+        String[] triangleAttrs = {"base", "length"};
+        String[] circleAttrs = {"radius"};
+        String[] trapeziumAttrs = {"a", "b", "height"};
+        String[] parallelogramAttrs = {"base", "height"};
+        String[] rhombusAttrs = {"base", "height"};
+        String[] polygonAttrs = {"sides", "length"};
+
+        String[] cubeAttrs = {"width"};
+        String[] rectAttrs = {"width", "length", "depth"};
+        String[] cylinderAttrs = {"radius", "height"};
+        String[] coneAttrs = {"radius", "height"};
+        String[] sphereAttrs = {"radius"};
+        String[] pyramidAttrs = {"base-area", "height"};
+        String[] prismAttrs = {"polygon-base-area", "height"};
+
+        this.attributes.put("square", squareAttrs);
+        this.attributes.put("triangle", triangleAttrs);
+        this.attributes.put("circle", circleAttrs);
+        this.attributes.put("trapezium", trapeziumAttrs);
+        this.attributes.put("parallelogram", parallelogramAttrs);
+        this.attributes.put("rhombus", rhombusAttrs);
+        this.attributes.put("polygon", polygonAttrs);
+
+        this.attributes.put("cube", cubeAttrs);
+        this.attributes.put("rect", rectAttrs);
+        this.attributes.put("cylinder", cylinderAttrs);
+        this.attributes.put("cone", coneAttrs);
+        this.attributes.put("sphere", sphereAttrs);
+        this.attributes.put("pyramid", pyramidAttrs);
+        this.attributes.put("prism", prismAttrs);
+    }
+
+    public ArrayList<Shape> getShapes() {
+        return this.shapes;
+    }
+
+    private ShapeName name(String dimension) {
+        int size = ShapeName.getSize(dimension);
+        int index = random.nextInt(size);
+        return ShapeName.getValue(index);
+    }
+
+    private String[] attributesName(String dimension) {
+        ShapeName value = name(dimension);
+        return this.attributes.get(value.getName());
+    }
+
+    private Map<String, Double> attributesValue(String dimension) {
+        String[] names = attributesName(dimension);
+        Map<String, Double> map = new HashMap<>();
+        for (String name : names) {
+            map.put(name, this.random.nextDouble(0.0, 100));
+        }
+        return map;
+    }
+
+    public Shape shape(String dimension) {
+        ShapeName value = this.name(dimension);
+        if (dimension == "2D") return new Shape2D(value.getName(), attributesValue(dimension));
+        if (dimension == "3D") return new Shape3D(value.getName(), attributesValue(dimension));
+        return null;
+    }
+
+    public void shapes(String dimension) {
+        for (int i = 0; i < this.number ; i++) {
+            if (dimension == "2D") {
+                Shape2D shape = (Shape2D) this.shape(dimension);
+                this.shapes.add(shape);
+                continue;
+            }
+            if (dimension == "3D") {
+                Shape3D shape = (Shape3D) this.shape(dimension);
+                this.shapes.add(shape);
+            }
+        }
+    }
+}

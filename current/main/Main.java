@@ -22,6 +22,10 @@ public class Main {
             System.out.println(column);;
         }
 
+        ShapeGenerator generator = new ShapeGenerator(10);
+        generator.shapes("2D");
+        System.out.println(generator.getShapes());
+
         System.out.println("TODO: Main class");
     }
 }
