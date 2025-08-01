@@ -55,14 +55,14 @@ public class ShapeGenerator {
         return this.shapes;
     }
 
-    private ShapeName name(int dimension) {
-        int size = ShapeName.getSize(dimension);
+    private ShapeType name(int dimension) {
+        int size = ShapeType.getSize(dimension);
         int index = random.nextInt(size);
-        return ShapeName.getValue(index);
+        return ShapeType.getValue(index);
     }
 
     private String[] attributesName(int dimension) {
-        ShapeName value = name(dimension);
+        ShapeType value = name(dimension);
         return this.attributes.get(value.getName());
     }
 
@@ -76,7 +76,7 @@ public class ShapeGenerator {
     }
 
     public Shape shape(int dimension) {
-        ShapeName value = this.name(dimension);
+        ShapeType value = this.name(dimension);
         if (dimension == 2) return new Shape2D(value.getName(), attributesValue(dimension));
         if (dimension == 3) return new Shape3D(value.getName(), attributesValue(dimension));
         return null;
@@ -91,6 +91,21 @@ public class ShapeGenerator {
             }
             if (dimension == 3) {
                 Shape3D shape = (Shape3D) this.shape(dimension);
+                this.shapes.add(shape);
+            }
+        }
+    }
+
+    public void shapes() {
+        for (int i = 0; i < this.number ; i++) {
+            Boolean b = random.nextBoolean();
+            if (b) {
+                Shape2D shape = (Shape2D) this.shape(2);
+                this.shapes.add(shape);
+                continue;
+            }
+            if (!b) {
+                Shape3D shape = (Shape3D) this.shape(3);
                 this.shapes.add(shape);
             }
         }

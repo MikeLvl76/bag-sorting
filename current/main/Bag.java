@@ -72,22 +72,31 @@ public class Bag {
     }
 
     public String toString() {
+        final int cellWidth = 7; // Width of each cell (including padding)
         StringBuilder builder = new StringBuilder();
+    
         for (int i = 0; i < this.maxSize; i++) {
-            if (this.content.isEmpty()) {
-                builder.append("[x]");
+            String cellContent;
+    
+            if (this.content.isEmpty() || this.getItem(i) == null) {
+                cellContent = "X";
             } else {
-                Shape current = this.getItem(i);
-                if (current == null) {
-                    builder.append("[x]");
-                } else {
-                    builder.append(String.format("[%s]", current.minimalDisplay()));
-                }
+                cellContent = this.getItem(i).minimalDisplay();
             }
+    
+            // Center content within cell width
+            String centered = String.format("%" + ((cellWidth + cellContent.length()) / 2) + "s", cellContent);
+            centered = String.format("%-" + cellWidth + "s", centered);
+    
+            builder.append(centered);
+    
+            // New line after each row
             if ((i + 1) % this.bagWidth == 0 && i != this.maxSize - 1) {
                 builder.append("\n");
             }
         }
+    
         return builder.toString();
     }
+    
 }

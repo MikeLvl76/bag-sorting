@@ -68,8 +68,8 @@ public abstract class Shape {
         }
     }
 
-    public char minimalDisplay() {
-        return Character.toUpperCase(this.name.charAt(0));
+    public String minimalDisplay() {
+        return String.format("%s_%dD", this.name.substring(0, 3).toUpperCase(), this.dimension);
     }
 
     @Override
