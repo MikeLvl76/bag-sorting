@@ -68,6 +68,10 @@ public abstract class Shape {
         }
     }
 
+    public char minimalDisplay() {
+        return Character.toUpperCase(this.name.charAt(0));
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

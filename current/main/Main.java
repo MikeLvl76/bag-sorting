@@ -15,17 +15,21 @@ public class Main {
         // System.out.println("Volume of rect: " + rect.getVolume());
 
         Bag bag = new Bag();
+        ShapeGenerator generator = new ShapeGenerator(10);
+        generator.shapes(2);
+
         System.out.println(bag);
+        System.out.println(generator.getShapes());
+
+        for (Shape shape : generator.getShapes()) {
+            bag.insertInto(shape);
+        }
 
         for (int i = 0; i < 4; i++){
             ArrayList<Shape> column = bag.getColumn(i);
-            System.out.println(column);;
+            System.out.println(column);
         }
 
-        ShapeGenerator generator = new ShapeGenerator(10);
-        generator.shapes(2);
-        System.out.println(generator.getShapes());
-
-        System.out.println("TODO: Main class");
+        System.out.println(bag);
     }
 }

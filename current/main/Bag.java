@@ -8,8 +8,9 @@ public class Bag {
     public Bag() {
         this.maxSize = 16;
         this.bagWidth = (int) this.maxSize / 4;
-        this.content = new ArrayList<>();
-        this.content.ensureCapacity(this.maxSize);
+        this.content = new ArrayList<>(this.maxSize);
+        int n = this.maxSize;
+        while(n-- > 0) this.content.add(null);
     }
 
     public ArrayList<Shape> getContent() {
@@ -26,12 +27,6 @@ public class Bag {
 
     public int getMaxSize() {
         return this.maxSize;
-    }
-
-    public void addToContent(Shape ...shapes) {
-        for (Shape s : shapes) {
-            this.content.add(s);
-        }
     }
 
     public void updateContent(int index, Shape shape) {
@@ -59,6 +54,23 @@ public class Bag {
         return column;
     }
 
+    public void insertInto(Shape shape) {
+        if (this.content.isEmpty()) {
+            this.content.set(maxSize - 1, shape);
+            return;
+        }
+
+        int index = maxSize - 1;
+        while(index > 0) {
+            if (this.content.get(index) != null) {
+                index--;
+            } else {
+                this.content.set(index, shape);
+                break;
+            }
+        }
+    }
+
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < this.maxSize; i++) {
@@ -69,7 +81,7 @@ public class Bag {
                 if (current == null) {
                     builder.append("[x]");
                 } else {
-                    builder.append("[" + Character.toUpperCase(current.getName().charAt(0)) + "]");
+                    builder.append("[" + current.minimalDisplay() + "]");
                 }
             }
             if ((i + 1) % this.bagWidth == 0 && i != this.maxSize - 1) {
