@@ -39,19 +39,19 @@ public class Bag {
 
     public ArrayList<Shape> getColumn(int colIndex) {
         ArrayList<Shape> column = new ArrayList<>();
-        int offset = this.bagWidth - colIndex;
 
-        for (int i = this.maxSize; i > 0; i--) {
-            if ((i - 1) % offset == 0) {
-                Shape shape = this.getItem(i);
-                if (shape == null) {
-                    break;
-                }
-                column.add(shape);
+        for (int i = 0; i < this.maxSize; i++) {
+            if ((i + colIndex) % bagWidth == 0) {
+                column.add(this.getItem(i));
             }
         }
 
         return column;
+    }
+
+    public void displayColumn(int colIndex) {
+        ArrayList<Shape> column = this.getColumn(colIndex);
+        System.out.println(column.stream().map(shape -> shape == null ? "x" : shape.minimalDisplay()).toList());
     }
 
     public void insertInto(Shape shape) {
@@ -81,7 +81,7 @@ public class Bag {
                 if (current == null) {
                     builder.append("[x]");
                 } else {
-                    builder.append("[" + current.minimalDisplay() + "]");
+                    builder.append(String.format("[%s]", current.minimalDisplay()));
                 }
             }
             if ((i + 1) % this.bagWidth == 0 && i != this.maxSize - 1) {

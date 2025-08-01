@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Main {
     public static void main(String[] args) {
         // Map<String, Double> map = Map.of("width", 2.0, "length", 6.0);
@@ -26,8 +24,7 @@ public class Main {
         }
 
         for (int i = 0; i < 4; i++){
-            ArrayList<Shape> column = bag.getColumn(i);
-            System.out.println(column);
+            bag.displayColumn(i);
         }
 
         System.out.println(bag);
