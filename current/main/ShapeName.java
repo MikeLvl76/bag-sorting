@@ -1,16 +1,17 @@
 import java.util.List;
 
 public enum ShapeName {
-    SQUARE("square", "2D"), TRIANGLE("triangle", "2D"), CIRCLE("circle", "2D"), TRAPEZIUM(
-            "trapezium", "2D"), PARALLELOGRAM("parallelogram",
-                    "2D"), RHOMBUS("rhombus", "2D"), POLYGON("polygon", "2D"),
+    SQUARE("square", 2), TRIANGLE("triangle", 2), CIRCLE("circle", 2), TRAPEZIUM(
+            "trapezium", 2), PARALLELOGRAM("parallelogram",
+                    2), RHOMBUS("rhombus", 2), POLYGON("polygon", 2),
 
-    CUBE("cube", "3D"), RECT("rect", "3D"), CYLINDER("cylinder", "3D"), CONE("cone",
-            "3D"), SPHERE("sphere", "3D"), PYRAMID("pyramid", "3D"), PRISM("prism", "3D");
+    CUBE("cube", 3), RECT("rect", 3), CYLINDER("cylinder", 3), CONE("cone",
+            3), SPHERE("sphere", 3), PYRAMID("pyramid", 3), PRISM("prism", 3);
 
-    private final String name, dimension;
+    private final String name;
+    private final int dimension;
 
-    ShapeName(String name, String dimension) {
+    ShapeName(String name, int dimension) {
         this.name = name;
         this.dimension = dimension;
     }
@@ -29,7 +30,7 @@ public enum ShapeName {
         return values.get(index);
     }
 
-    public static List<ShapeName> getShapes(String dimension) {
+    public static List<ShapeName> getShapes(int dimension) {
         List<ShapeName> values = List.of(ShapeName.values());
         return values.stream().filter(shape -> shape.dimension == dimension).toList();
     }
@@ -38,7 +39,7 @@ public enum ShapeName {
         return ShapeName.values().length;
     }
 
-    public static int getSize(String dimension) {
+    public static int getSize(int dimension) {
         return getShapes(dimension).size();
     }
 

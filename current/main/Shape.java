@@ -68,21 +68,22 @@ public abstract class Shape {
         }
     }
 
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("{");
-        builder.append(String.format("name: %s, ", this.name));
-        builder.append(String.format("dimension: %s, ", this.dimension));
+        builder.append("\n  {\n   ");
+        builder.append(String.format("name: %s,\n", this.name));
+        builder.append(String.format("   dimension: %s,\n", this.dimension));
         int index = 0;
         for (Map.Entry<String, Double> entry : this.attributes.entrySet()) {
-            String format = "%s: %f";
+            String format = "   %s: %.2f";
             if (index < this.attributes.size() - 1) {
-                format += ", ";  
+                format += ",\n";  
             }
             builder.append(String.format(format, entry.getKey(), entry.getValue()));
             index++;
         }
-        builder.append("}");
+        builder.append("\n  }");
 
         return builder.toString();
     }

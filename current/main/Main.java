@@ -23,7 +23,7 @@ public class Main {
         }
 
         ShapeGenerator generator = new ShapeGenerator(10);
-        generator.shapes("2D");
+        generator.shapes(2);
         System.out.println(generator.getShapes());
 
         System.out.println("TODO: Main class");

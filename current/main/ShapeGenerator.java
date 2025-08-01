@@ -55,18 +55,18 @@ public class ShapeGenerator {
         return this.shapes;
     }
 
-    private ShapeName name(String dimension) {
+    private ShapeName name(int dimension) {
         int size = ShapeName.getSize(dimension);
         int index = random.nextInt(size);
         return ShapeName.getValue(index);
     }
 
-    private String[] attributesName(String dimension) {
+    private String[] attributesName(int dimension) {
         ShapeName value = name(dimension);
         return this.attributes.get(value.getName());
     }
 
-    private Map<String, Double> attributesValue(String dimension) {
+    private Map<String, Double> attributesValue(int dimension) {
         String[] names = attributesName(dimension);
         Map<String, Double> map = new HashMap<>();
         for (String name : names) {
@@ -75,21 +75,21 @@ public class ShapeGenerator {
         return map;
     }
 
-    public Shape shape(String dimension) {
+    public Shape shape(int dimension) {
         ShapeName value = this.name(dimension);
-        if (dimension == "2D") return new Shape2D(value.getName(), attributesValue(dimension));
-        if (dimension == "3D") return new Shape3D(value.getName(), attributesValue(dimension));
+        if (dimension == 2) return new Shape2D(value.getName(), attributesValue(dimension));
+        if (dimension == 3) return new Shape3D(value.getName(), attributesValue(dimension));
         return null;
     }
 
-    public void shapes(String dimension) {
+    public void shapes(int dimension) {
         for (int i = 0; i < this.number ; i++) {
-            if (dimension == "2D") {
+            if (dimension == 2) {
                 Shape2D shape = (Shape2D) this.shape(dimension);
                 this.shapes.add(shape);
                 continue;
             }
-            if (dimension == "3D") {
+            if (dimension == 3) {
                 Shape3D shape = (Shape3D) this.shape(dimension);
                 this.shapes.add(shape);
             }
