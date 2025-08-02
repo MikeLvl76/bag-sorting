@@ -1,3 +1,5 @@
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,7 +51,8 @@ public class ShapeGenerator {
         String[] names = this.attributes.entrySet().stream().filter(entry -> entry.getKey().equals(type)).map(entry -> entry.getValue()).findFirst().get();
         Map<String, Double> map = new HashMap<>(names.length);
         for (String name : names) {
-            map.put(name, this.random.nextDouble(0.0, 10.0));
+            double value = new BigDecimal(this.random.nextDouble(0.0, 10.0)).setScale(2, RoundingMode.DOWN).doubleValue();
+            map.put(name, value);
         }
         return map;
     }

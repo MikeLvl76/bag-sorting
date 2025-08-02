@@ -2,58 +2,39 @@ import java.util.Map;
 
 public class Shape2D extends Shape implements AreaCalculator {
 
-    public Shape2D(ShapeType type, Map<String, Double> map) {
+    public Shape2D(ShapeType type, Map<String, Double> attrs) {
         this.setType(type);
         if (type.getDimension() != 2) throw new IllegalArgumentException("Dimension must be equals to 2.");
         this.setCanStack(false);
-        map.put("area", 0.0);
-        this.calculateArea();
-        this.updateAttributes(map);
+        attrs.put("area", this.calculateArea(attrs));
+        this.updateAttributes(attrs);
     }
 
-    public double getArea() {
-        return this.attributes.get("area");
-    }
-
-    private void calculateArea() {
+    private double calculateArea(Map<String, Double> attrs) {
         switch (this.type) {
             case SQUARE:
-                double squareArea = getSquareArea(this.getAttributeValue("width"), this.getAttributeValue("length"));
-                this.attributes.put("area", squareArea);
-                break;
+                return getSquareArea(attrs.get("width"), attrs.get("length"));
 
             case TRIANGLE:
-                double triangleArea = getTriangleArea(this.getAttributeValue("base"), this.getAttributeValue("length"));
-                this.attributes.put("area", triangleArea);
-                break;
+                return getTriangleArea(attrs.get("base"), attrs.get("length"));
 
             case CIRCLE:
-                double circleArea = getCircleArea(this.getAttributeValue("radius"));
-                this.attributes.put("area", circleArea);
-                break;
+                return getCircleArea(attrs.get("radius"));
 
             case TRAPEZIUM:
-                double trapeziumArea = getTrapeziumArea(this.getAttributeValue("a"), this.getAttributeValue("b"), this.getAttributeValue("height"));
-                this.attributes.put("area", trapeziumArea);
-                break;
+                return getTrapeziumArea(attrs.get("a"), attrs.get("b"), attrs.get("height"));
 
             case PARALLELOGRAM:
-                double parallelogramArea = getParallelogramArea(this.getAttributeValue("base"), this.getAttributeValue("height"));
-                this.attributes.put("area", parallelogramArea);
-                break;
+                return getParallelogramArea(attrs.get("base"), attrs.get("height"));
 
             case RHOMBUS:
-                double rhombusArea = getRhombusArea(this.getAttributeValue("base"), this.getAttributeValue("height"));
-                this.attributes.put("area", rhombusArea);
-                break;
+                return getRhombusArea(attrs.get("base"), attrs.get("height"));
 
             case POLYGON:
-                double polygonArea = getRegularPolygonArea((int) this.getAttributeValue("sides"), this.getAttributeValue("length"));
-                this.attributes.put("area", polygonArea);
-                break;
+                return getRegularPolygonArea(attrs.get("sides").intValue(), attrs.get("length"));
         
             default:
-                break;
+                return 0.0;
         }
     }
 }
