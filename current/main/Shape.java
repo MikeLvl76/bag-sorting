@@ -75,7 +75,7 @@ public abstract class Shape {
         builder.append(String.format("   dimension: %d,\n", this.type.getDimension()));
         int index = 0;
         for (Map.Entry<String, Double> entry : this.attributes.entrySet()) {
-            String format = "   %s: %.2f";
+            String format = "   %s: %.3g";
             if (index < this.attributes.size() - 1) {
                 format += ",\n";  
             }

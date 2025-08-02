@@ -20,7 +20,7 @@ public class ShapeGenerator {
     private void initAttributes() {
         // 2D Shapes attributes
         this.attributes.put(ShapeType.SQUARE, new String[]{"width", "length"});
-        this.attributes.put(ShapeType.TRIANGLE, new String[]{"base", "length"});
+        this.attributes.put(ShapeType.TRIANGLE, new String[]{"base", "height"});
         this.attributes.put(ShapeType.CIRCLE, new String[]{"radius"});
         this.attributes.put(ShapeType.TRAPEZIUM, new String[]{"a", "b", "height"});
         this.attributes.put(ShapeType.PARALLELOGRAM, new String[]{"base", "height"});
@@ -28,7 +28,7 @@ public class ShapeGenerator {
         this.attributes.put(ShapeType.POLYGON, new String[]{"sides", "length"});
 
         // 3D Shapes attributes
-        this.attributes.put(ShapeType.CUBE, new String[]{"width"});
+        this.attributes.put(ShapeType.CUBE, new String[]{"length"});
         this.attributes.put(ShapeType.RECT, new String[]{"width", "length", "depth"});
         this.attributes.put(ShapeType.CYLINDER, new String[]{"radius", "height"});
         this.attributes.put(ShapeType.CONE, new String[]{"radius", "height"});
@@ -68,13 +68,32 @@ public class ShapeGenerator {
         this.shapes.ensureCapacity(number);
 
         int index = number;
-        while(index > 0) {
-            ShapeType type = this.type();
+        
+        while (index > 0) {
+            ShapeType type = null;
+    
+            for (int attempts = 0; attempts < 5; attempts++) {
+                ShapeType candidate = this.type();
+                long count = this.shapes.stream()
+                    .filter(s -> s.type.getName().equals(candidate.getName()))
+                    .count();
+    
+                if (count < 2) {
+                    type = candidate;
+                    break;
+                }
+            }
+    
+            if (type == null) {
+                break;
+            }
+    
             Shape shape = this.shape(type);
-            if (shape != null) {
-                this.shapes.add(this.shape(type));
-                index--;
-            }   
+                if (shape != null) {
+                    this.shapes.add(shape);
+                    index--;
+                }
+            
         }
     }
 }

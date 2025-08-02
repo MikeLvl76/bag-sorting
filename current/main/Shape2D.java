@@ -16,7 +16,7 @@ public class Shape2D extends Shape implements AreaCalculator {
                 return getSquareArea(attrs.get("width"), attrs.get("length"));
 
             case TRIANGLE:
-                return getTriangleArea(attrs.get("base"), attrs.get("length"));
+                return getTriangleArea(attrs.get("base"), attrs.get("height"));
 
             case CIRCLE:
                 return getCircleArea(attrs.get("radius"));

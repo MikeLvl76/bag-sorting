@@ -16,7 +16,7 @@ public class Main {
 
         Bag bag = new Bag(16, 4);
         ShapeGenerator generator = new ShapeGenerator();
-        generator.shapes(1);
+        generator.shapes(4);
 
         System.out.println(bag);
         // System.out.println(generator.getShapes());
