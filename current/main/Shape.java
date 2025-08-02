@@ -2,17 +2,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Shape {
-    protected String name;
-    protected int dimension;
+    protected ShapeType type;
     protected Boolean canStack;
     protected Map<String, Double> attributes = new HashMap<>();
 
     protected String getName() {
-        return this.name;
+        return this.type.getName();
     }
 
     protected int getDimension() {
-        return this.dimension;
+        return this.type.getDimension();
     }
 
     protected Boolean isStackable() {
@@ -38,13 +37,9 @@ public abstract class Shape {
     protected Map<String, Double> getAttributes() {
         return this.attributes;
     }
-    
-    protected void setName(String n) {
-        this.name = n;
-    }
 
-    protected void setDimension(int d) {
-        this.dimension = d;
+    protected void setType(ShapeType type) {
+        this.type = type;
     }
 
     protected void setCanStack(Boolean b) {
@@ -69,15 +64,15 @@ public abstract class Shape {
     }
 
     public String minimalDisplay() {
-        return String.format("%s_%dD", this.name.substring(0, 3).toUpperCase(), this.dimension);
+        return String.format("%s_%dD", this.type.getName().substring(0, 3).toUpperCase(), this.type.getDimension());
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("\n  {\n   ");
-        builder.append(String.format("name: %s,\n", this.name));
-        builder.append(String.format("   dimension: %s,\n", this.dimension));
+        builder.append(String.format("name: %s,\n", this.type.getName()));
+        builder.append(String.format("   dimension: %d,\n", this.type.getDimension()));
         int index = 0;
         for (Map.Entry<String, Double> entry : this.attributes.entrySet()) {
             String format = "   %s: %.2f";

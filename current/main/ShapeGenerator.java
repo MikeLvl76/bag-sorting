@@ -6,108 +6,72 @@ import java.util.Random;
 public class ShapeGenerator {
     
     private final Random random = new Random();
-    private final Map<String, String[]> attributes = new HashMap<>();
-    private int number;
+    private final Map<ShapeType, String[]> attributes;
     private ArrayList<Shape> shapes;
 
-    public ShapeGenerator(int number) {
-        this.number = number;
+    public ShapeGenerator() {
+        this.attributes = new HashMap<>();
         this.shapes = new ArrayList<>();
-        this.shapes.ensureCapacity(this.number);
         this.initAttributes();
     }
 
     private void initAttributes() {
-        String[] squareAttrs = {"width", "length"};
-        String[] triangleAttrs = {"base", "length"};
-        String[] circleAttrs = {"radius"};
-        String[] trapeziumAttrs = {"a", "b", "height"};
-        String[] parallelogramAttrs = {"base", "height"};
-        String[] rhombusAttrs = {"base", "height"};
-        String[] polygonAttrs = {"sides", "length"};
+        // 2D Shapes attributes
+        this.attributes.put(ShapeType.SQUARE, new String[]{"width", "length"});
+        this.attributes.put(ShapeType.TRIANGLE, new String[]{"base", "length"});
+        this.attributes.put(ShapeType.CIRCLE, new String[]{"radius"});
+        this.attributes.put(ShapeType.TRAPEZIUM, new String[]{"a", "b", "height"});
+        this.attributes.put(ShapeType.PARALLELOGRAM, new String[]{"base", "height"});
+        this.attributes.put(ShapeType.RHOMBUS, new String[]{"base", "height"});
+        this.attributes.put(ShapeType.POLYGON, new String[]{"sides", "length"});
 
-        String[] cubeAttrs = {"width"};
-        String[] rectAttrs = {"width", "length", "depth"};
-        String[] cylinderAttrs = {"radius", "height"};
-        String[] coneAttrs = {"radius", "height"};
-        String[] sphereAttrs = {"radius"};
-        String[] pyramidAttrs = {"base-area", "height"};
-        String[] prismAttrs = {"polygon-base-area", "height"};
-
-        this.attributes.put("square", squareAttrs);
-        this.attributes.put("triangle", triangleAttrs);
-        this.attributes.put("circle", circleAttrs);
-        this.attributes.put("trapezium", trapeziumAttrs);
-        this.attributes.put("parallelogram", parallelogramAttrs);
-        this.attributes.put("rhombus", rhombusAttrs);
-        this.attributes.put("polygon", polygonAttrs);
-
-        this.attributes.put("cube", cubeAttrs);
-        this.attributes.put("rect", rectAttrs);
-        this.attributes.put("cylinder", cylinderAttrs);
-        this.attributes.put("cone", coneAttrs);
-        this.attributes.put("sphere", sphereAttrs);
-        this.attributes.put("pyramid", pyramidAttrs);
-        this.attributes.put("prism", prismAttrs);
+        // 3D Shapes attributes
+        this.attributes.put(ShapeType.CUBE, new String[]{"width"});
+        this.attributes.put(ShapeType.RECT, new String[]{"width", "length", "depth"});
+        this.attributes.put(ShapeType.CYLINDER, new String[]{"radius", "height"});
+        this.attributes.put(ShapeType.CONE, new String[]{"radius", "height"});
+        this.attributes.put(ShapeType.SPHERE, new String[]{"radius"});
+        this.attributes.put(ShapeType.PYRAMID, new String[]{"base-area", "height"});
+        this.attributes.put(ShapeType.PRISM, new String[]{"polygon-base-area", "height"});
     }
 
     public ArrayList<Shape> getShapes() {
         return this.shapes;
     }
 
-    private ShapeType name(int dimension) {
-        int size = ShapeType.getSize(dimension);
+    private ShapeType type() {
+        int size = ShapeType.getTotalSize();
         int index = random.nextInt(size);
         return ShapeType.getValue(index);
     }
 
-    private String[] attributesName(int dimension) {
-        ShapeType value = name(dimension);
-        return this.attributes.get(value.getName());
-    }
-
-    private Map<String, Double> attributesValue(int dimension) {
-        String[] names = attributesName(dimension);
-        Map<String, Double> map = new HashMap<>();
+    private Map<String, Double> attributes(ShapeType type) {
+        String[] names = this.attributes.entrySet().stream().filter(entry -> entry.getKey().equals(type)).map(entry -> entry.getValue()).findFirst().get();
+        Map<String, Double> map = new HashMap<>(names.length);
         for (String name : names) {
-            map.put(name, this.random.nextDouble(0.0, 100));
+            map.put(name, this.random.nextDouble(0.0, 10.0));
         }
         return map;
     }
 
-    public Shape shape(int dimension) {
-        ShapeType value = this.name(dimension);
-        if (dimension == 2) return new Shape2D(value.getName(), attributesValue(dimension));
-        if (dimension == 3) return new Shape3D(value.getName(), attributesValue(dimension));
+    public Shape shape(ShapeType type) {
+        int dim = type.getDimension();
+        if (dim == 2) return new Shape2D(type, attributes(type));
+        if (dim == 3) return new Shape3D(type, attributes(type));
         return null;
     }
 
-    public void shapes(int dimension) {
-        for (int i = 0; i < this.number ; i++) {
-            if (dimension == 2) {
-                Shape2D shape = (Shape2D) this.shape(dimension);
-                this.shapes.add(shape);
-                continue;
-            }
-            if (dimension == 3) {
-                Shape3D shape = (Shape3D) this.shape(dimension);
-                this.shapes.add(shape);
-            }
-        }
-    }
+    public void shapes(int number) {
+        this.shapes.ensureCapacity(number);
 
-    public void shapes() {
-        for (int i = 0; i < this.number ; i++) {
-            Boolean b = random.nextBoolean();
-            if (b) {
-                Shape2D shape = (Shape2D) this.shape(2);
-                this.shapes.add(shape);
-                continue;
-            }
-            if (!b) {
-                Shape3D shape = (Shape3D) this.shape(3);
-                this.shapes.add(shape);
-            }
+        int index = number;
+        while(index > 0) {
+            ShapeType type = this.type();
+            Shape shape = this.shape(type);
+            if (shape != null) {
+                this.shapes.add(this.shape(type));
+                index--;
+            }   
         }
     }
 }

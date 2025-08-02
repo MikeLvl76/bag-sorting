@@ -15,8 +15,8 @@ public class Main {
         // System.out.println("Volume of rect: " + rect.getVolume());
 
         Bag bag = new Bag(16, 4);
-        ShapeGenerator generator = new ShapeGenerator(1);
-        generator.shapes();
+        ShapeGenerator generator = new ShapeGenerator();
+        generator.shapes(1);
 
         System.out.println(bag);
         // System.out.println(generator.getShapes());

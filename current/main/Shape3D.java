@@ -2,13 +2,12 @@ import java.util.Map;
 
 public class Shape3D extends Shape implements VolumeCalculator {
 
-    public Shape3D(String _name, Map<String, Double> map) {
-        this.setName(_name);
-        this.setDimension(3);
+    public Shape3D(ShapeType type, Map<String, Double> map) {
+        this.type = type;
+        if (type.getDimension() != 3) throw new IllegalArgumentException("Dimension must be equals to 3.");
         this.setCanStack(false);
-        map.put("volume", 0.0);
-        this.updateAttributes(map);
         this.calculateVolume();
+        this.updateAttributes(map);
     }
 
     public double getVolume() {
@@ -16,40 +15,40 @@ public class Shape3D extends Shape implements VolumeCalculator {
     }
 
     private void calculateVolume() {
-        switch (this.name) {
-            case "cube":
+        switch (this.type) {
+            case CUBE:
                 double cubeVolume = getCubeVolume(this.getAttributeValue("length"));
-                this.attributes.replace("volume", cubeVolume);
+                this.attributes.put("volume", cubeVolume);
                 break;
 
-            case "rect":
+            case RECT:
                 double rectVolume = getRectVolume(this.getAttributeValue("width"), this.getAttributeValue("length"), this.getAttributeValue("depth"));
-                this.attributes.replace("volume", rectVolume);
+                this.attributes.put("volume", rectVolume);
                 break;
 
-            case "cylinder":
+            case CYLINDER:
                 double cylinderVolume = getCylinderVolume(this.getAttributeValue("radius"), this.getAttributeValue("height"));
-                this.attributes.replace("volume", cylinderVolume);
+                this.attributes.put("volume", cylinderVolume);
                 break;
 
-            case "cone":
+            case CONE:
                 double coneVolume = getConeVolume(this.getAttributeValue("radius"), this.getAttributeValue("height"));
-                this.attributes.replace("volume", coneVolume);
+                this.attributes.put("volume", coneVolume);
                 break;
 
-            case "sphere":
+            case SPHERE:
                 double sphereVolume = getSphereVolume(this.getAttributeValue("radius"));
-                this.attributes.replace("volume", sphereVolume);
+                this.attributes.put("volume", sphereVolume);
                 break;
 
-            case "pyramid":
+            case PYRAMID:
                 double pyramidVolume = getPyramidVolume(this.getAttributeValue("base-area"), this.getAttributeValue("height"));
-                this.attributes.replace("volume", pyramidVolume);
+                this.attributes.put("volume", pyramidVolume);
                 break;
 
-            case "prism":
+            case PRISM:
                 double prismVolume = getPrismVolume(this.getAttributeValue("polygon-base-area"), this.getAttributeValue("height"));
-                this.attributes.replace("volume", prismVolume);
+                this.attributes.put("volume", prismVolume);
                 break;
         
             default:

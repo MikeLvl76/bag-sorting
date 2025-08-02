@@ -17,8 +17,8 @@ public enum ShapeType {
     PYRAMID("pyramid", 3),
     PRISM("prism", 3);
 
-    private final String name;
-    private final int dimension;
+    private String name;
+    private int dimension;
 
     ShapeType(String name, int dimension) {
         this.name = name;
@@ -27,6 +27,10 @@ public enum ShapeType {
 
     public String getName() {
         return this.name;
+    }
+
+    public int getDimension() {
+        return this.dimension;
     }
 
     public static ShapeType getValue(String name) {

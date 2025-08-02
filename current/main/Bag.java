@@ -78,10 +78,10 @@ public class Bag {
 
             // Place is taken
             // Compare dimension between current shape and the new
-            if (current.dimension < shape.dimension) {
+            if (current.getDimension() < shape.getDimension()) {
                 // We consider that a 3D shape cannot stack with a 2D shape if the second one is below
                 continue;
-            } else if (current.dimension > shape.dimension) {
+            } else if (current.getDimension() > shape.getDimension()) {
                 // The opposite is true only if the volume of the 3D shape is twice greater than the area of the 2D shape
                 double volume = current.getAttributeValue("volume");
                 double area = shape.getAttributeValue("area");
@@ -89,9 +89,9 @@ public class Bag {
                     column.set(nextIndex, shape);
                     break;
                 }
-            } else if (current.dimension == shape.dimension) {
+            } else if (current.getDimension() == shape.getDimension()) {
                 // If both are 2D shapes then only if the shape below has a greater area than the other
-                if (current.dimension == 2) {
+                if (current.getDimension() == 2) {
                     double currentArea = current.getAttributeValue("area");
                     double shapeArea = shape.getAttributeValue("area");
                     if (currentArea > shapeArea) {
