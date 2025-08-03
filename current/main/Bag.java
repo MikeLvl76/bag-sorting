@@ -69,12 +69,12 @@ public class Bag {
                     .reduce(0.0, (result, shape) -> result + shape.getAttributeValue(measure), Double::sum);
     }
 
-    private Boolean hasColumnFull(int colIndex) {
+    private boolean hasColumnFull(int colIndex) {
         ArrayList<Shape> column = this.getColumn(colIndex);
         return column.stream().allMatch(shape -> shape != null);
     }
 
-    private Boolean isFull() {
+    private boolean isFull() {
         return this.content.stream().allMatch(shape -> shape != null);
     }
 
