@@ -3,7 +3,6 @@ import java.util.Map;
 
 public abstract class Shape {
     protected ShapeType type;
-    protected Boolean canStack;
     protected Map<String, Double> attributes = new HashMap<>();
 
     protected String getName() {
@@ -12,10 +11,6 @@ public abstract class Shape {
 
     protected int getDimension() {
         return this.type.getDimension();
-    }
-
-    protected Boolean isStackable() {
-        return this.canStack;
     }
 
     protected Map.Entry<String, Double> getAttribute(String key) {
@@ -40,10 +35,6 @@ public abstract class Shape {
 
     protected void setType(ShapeType type) {
         this.type = type;
-    }
-
-    protected void setCanStack(Boolean b) {
-        this.canStack = b;
     }
 
     protected void updateAttributes(Map<String, Double> map){
