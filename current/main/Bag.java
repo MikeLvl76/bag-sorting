@@ -221,7 +221,7 @@ public class Bag {
     
         builder.append(String.format("\n\nCount: %d\n", this.count()));
         builder.append(String.format("Total content area: %.2f\n", this.measureSize(2, "area")));
-        builder.append(String.format("Total content volume: %.2f", this.measureSize(3, "volume")));
+        builder.append(String.format("Total content volume: %.2f\n", this.measureSize(3, "volume")));
         return builder.toString();
     }
     

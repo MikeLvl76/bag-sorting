@@ -96,4 +96,9 @@ public class ShapeGenerator {
             
         }
     }
+
+    @Override
+    public String toString() {
+        return this.shapes.stream().map(shape -> shape.minimalDisplay()).toList().toString();
+    }
 }

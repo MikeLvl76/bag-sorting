@@ -14,8 +14,11 @@ TODO
 javac old/main/*.java -d "old/out" ; java -cp old/out TestSacADos
 ```
 
-## Current
+## Current (On Windows)
 ```
-# On Windows
+# Classic mode
 javac current/main/*.java -d "current/out" ; java -cp current/out Main
+
+# Random mode (with -r or --random argument)
+javac current/main/*.java -d "current/out" ; java -cp current/out Main -r
 ```
