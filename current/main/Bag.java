@@ -53,6 +53,22 @@ public class Bag {
         return this.content.stream().filter(shape -> shape != null).count();
     }
 
+    private double measureSize(int dimension, String measure) {
+        if (dimension == 2) {
+            if (!measure.equals("area")) {
+                return 0.0;
+            }
+        } else if (dimension == 3) {
+            if (!measure.equals("volume")) {
+                return 0.0;
+            }
+        }
+
+        return this.content.stream()
+                    .filter(shape -> shape != null && shape.getDimension() == dimension)
+                    .reduce(0.0, (result, shape) -> result + shape.getAttributeValue(measure), Double::sum);
+    }
+
     private Boolean hasColumnFull(int colIndex) {
         ArrayList<Shape> column = this.getColumn(colIndex);
         return column.stream().allMatch(shape -> shape != null);
@@ -203,7 +219,9 @@ public class Bag {
             }
         }
     
-        builder.append(String.format("\nNumber of shapes: %d", this.count()));
+        builder.append(String.format("\n\nCount: %d\n", this.count()));
+        builder.append(String.format("Total content area: %.2f\n", this.measureSize(2, "area")));
+        builder.append(String.format("Total content volume: %.2f", this.measureSize(3, "volume")));
         return builder.toString();
     }
     
