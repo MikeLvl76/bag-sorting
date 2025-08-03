@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Main {
     public static void main(String[] args) {
         // Map<String, Double> map = Map.of("width", 2.0, "length", 6.0);
@@ -21,15 +19,16 @@ public class Main {
         System.out.println(bag);
         // System.out.println(generator.getShapes());
 
-        for (Shape shape : generator.getShapes()) {
-            //bag.insertInto(shape);
-            ArrayList<Shape> column = bag.insertIntoColumn(0, shape);
-            System.out.println(column);
-        }
+        bag.insert(generator.getShapes().toArray(new Shape[4]));
 
-        for (int i = 0; i < bag.stackCount(); i++){
-            bag.displayColumn(i);
-        }
+        // for (Shape shape : generator.getShapes()) {
+        //     //bag.insertInto(shape);
+        //     bag.insertIntoColumn(0, shape);
+        // }
+
+        // for (int i = 0; i < bag.stackCount(); i++){
+        //     bag.displayColumn(i);
+        // }
 
         System.out.println(bag);
     }

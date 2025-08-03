@@ -4,7 +4,6 @@ public interface AreaCalculator {
     }
 
     default double getTriangleArea(double base, double height) {
-        System.out.println(base + " x " + height + " x 1/2 = " + 1/2 * (base * height));
         return 1.0/2 * (base * height);
     }
 
