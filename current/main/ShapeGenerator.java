@@ -89,10 +89,10 @@ public class ShapeGenerator {
             }
     
             Shape shape = this.shape(type);
-                if (shape != null) {
-                    this.shapes.add(shape);
-                    index--;
-                }
+            if (shape != null) {
+                this.shapes.add(shape);
+                index--;
+            }
             
         }
     }

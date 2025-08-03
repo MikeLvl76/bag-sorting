@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.stream.Stream;
 
 public class Bag {
     private ArrayList<Shape> content;
@@ -75,9 +74,9 @@ public class Bag {
     }
 
     private Shape[] insertIntoColumn(int colIndex, Shape ...shapes) {
-        if (this.isFull()) return shapes;
         if (colIndex < 0 || colIndex >= this.stackCount) return shapes;
-        if (this.hasColumnFull(colIndex) || shapes.length == 0) return shapes;
+        if (this.isFull() || shapes.length == 0) return shapes;
+        if (this.hasColumnFull(colIndex)) return this.insertIntoColumn(colIndex - 1, shapes);
 
         ArrayList<Shape> notInserted = new ArrayList<>();
         ArrayList<Shape> column = this.getColumn(colIndex);
@@ -173,7 +172,7 @@ public class Bag {
     public void insert(Shape ...shapes) {
         int colIndex = this.stackCount() - 1;
         Shape[] notInserted = this.insertIntoColumn(colIndex, shapes);
-        System.out.println(String.format("Remaining shapes: %s\n", Arrays.toString(notInserted)));
+        System.out.println(String.format("Remaining shapes (%d): %s\n", notInserted.length, Arrays.toString(notInserted)));
     }
 
     public void displayColumn(int colIndex) {
