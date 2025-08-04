@@ -5,10 +5,30 @@ import java.util.Collections;
 public class Bag {
     private ArrayList<Shape> content;
     private int stackCount;
+    private final int MIN_BAG_SIZE = 12, MAX_BAG_SIZE = 36;
+    private final int MIN_STACK_COUNT = this.MIN_BAG_SIZE / 3, MAX_STACK_COUNT = this.MAX_BAG_SIZE / 3;
 
     public Bag(int size, int stackCount) {
+        if (size < this.MIN_BAG_SIZE) {
+            throw new IllegalArgumentException(String.format("Size must be at least equals to %d", this.MIN_BAG_SIZE));
+        }
+
+        if (size > this.MAX_BAG_SIZE) {
+            throw new IllegalArgumentException(String.format("Size must not exceed %d", this.MAX_BAG_SIZE));
+        }
+
+        if (stackCount < this.MIN_STACK_COUNT) {
+            throw new IllegalArgumentException(String.format("Stack count must be at least equals to %d", this.MIN_STACK_COUNT));
+        }
+
+        if (stackCount > this.MAX_STACK_COUNT) {
+            throw new IllegalArgumentException(String.format("Stack count must not exceed %d", this.MAX_STACK_COUNT));
+        }
+
         if (size % stackCount != 0 || size <= stackCount) 
-            throw new IllegalArgumentException(String.format("Incorrect values: %d and %d. Size must be a multiple of stack count.", size, stackCount));
+            throw new IllegalArgumentException(
+                String.format("Incorrect values for size (%d) and stack count (%d). Size must be a multiple of stack count and cannot be similar.", size, stackCount)
+            );
 
         this.stackCount = stackCount;
         this.content = new ArrayList<>(Collections.nCopies(size, null));
@@ -28,10 +48,6 @@ public class Bag {
 
     public int stackCount() {
         return this.stackCount;
-    }
-
-    public void updateContent(int index, Shape shape) {
-        this.content.set(index, shape);
     }
 
     public ArrayList<Shape> getColumn(int colIndex) {
@@ -87,6 +103,83 @@ public class Bag {
             int eltIndex = i * this.stackCount + colIndex;
             this.content.set(eltIndex, column.get(i));
         }
+    }
+
+    // TODO: return boolean value if shape is indeed inserted
+    public boolean insert(int colIndex, Shape shape) {
+        if (colIndex < 0 || colIndex >= this.stackCount) return false;
+        if (this.isFull() || shape == null) return false;
+        if (this.hasColumnFull(colIndex)) return false;
+
+        ArrayList<Shape> column = this.getColumn(colIndex);
+        int index = column.size() - 2;
+
+        while(index > - 1) {
+            int previousIndex = index + 1;
+
+            Shape current = column.get(index);
+            Shape previous = column.get(previousIndex);
+
+            // Case 1: empty column
+            if (previous == null) {
+                column.set(previousIndex, shape);
+                this.updateColumn(colIndex, column);
+                return true;
+            }
+
+            // Case 2: column contains at least one shape and
+            // we check if a shape can be inserted by comparing 
+            // their dimension and their area and/or volume
+            if (current == null) {
+                // The shape contained in column has a lower dimension than the new,
+                // then we had the new to the list of non-inserted shapes and go to
+                // next shape
+                if (previous.getDimension() < shape.getDimension()) {
+                    return false;
+                }
+
+                // The shape contained in column has a greater dimension than the new,
+                // if the volume of the previous one is twice bigger than the area of the
+                // new, then we can insert it and go to next shape and go to next empty place
+                if (previous.getDimension() > shape.getDimension()) {
+                    double volume = previous.getAttributeValue("volume");
+                    double area = shape.getAttributeValue("area");
+                    if (volume > 2 * area) {
+                        column.set(index, shape);
+                        this.updateColumn(colIndex, column);
+                        return true;
+                    }
+                    return false;
+                }
+
+                // The shape contained in column and the new have the same dimension,
+                // if the area or volume of the previous one is bigger than the area or the volume of the
+                // new, then we can insert it and go to next shape and go to next empty place
+                if (previous.getDimension() == shape.getDimension()) {
+                    int dim = previous.getDimension();
+                    if (dim == 2) {
+                        double previousArea = previous.getAttributeValue("area");
+                        double shapeArea = shape.getAttributeValue("area");
+                        if (previousArea > shapeArea) {
+                            column.set(index, shape);
+                            this.updateColumn(colIndex, column);
+                            return true;
+                        }
+                    } else if (dim == 3) {
+                        double previousVolume = previous.getAttributeValue("volume");
+                        double shapeVolume = shape.getAttributeValue("volume");
+                        if (previousVolume > shapeVolume) {
+                            column.set(index, shape);
+                            this.updateColumn(colIndex, column);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            }
+            return false;
+        }
+        return false;
     }
 
     private Shape[] insertIntoColumn(int colIndex, Shape ...shapes) {
@@ -177,7 +270,7 @@ public class Bag {
             index--;
             continue;
         }
-        updateColumn(colIndex, column);
+        this.updateColumn(colIndex, column);
         Shape[] notInsertedArray = notInserted.toArray(new Shape[notInserted.size()]);
         if (notInserted.size() > 0) {
             return this.insertIntoColumn(colIndex - 1, notInsertedArray);
