@@ -4,7 +4,8 @@ public class Shape2D extends Shape implements AreaCalculator {
 
     public Shape2D(ShapeType type, Map<String, Double> attrs) {
         this.setType(type);
-        if (type.getDimension() != 2) throw new IllegalArgumentException("Dimension must be equals to 2.");
+        if (type.getDimension() != 2)
+            throw new IllegalArgumentException("Dimension must be equals to 2.");
         this.updateAttributes(attrs);
         this.calculate();
     }
@@ -14,7 +15,7 @@ public class Shape2D extends Shape implements AreaCalculator {
     }
 
     private double getTriangleArea(double base, double height) {
-        return 1.0/2 * (base * height);
+        return 1.0 / 2 * (base * height);
     }
 
     private double getCircleArea(double radius) {
@@ -22,7 +23,7 @@ public class Shape2D extends Shape implements AreaCalculator {
     }
 
     private double getTrapeziumArea(double a, double b, double height) {
-        return 1.0/2 * (a + b) * height;
+        return 1.0 / 2 * (a + b) * height;
     }
 
     private double getParallelogramArea(double base, double height) {
@@ -34,7 +35,8 @@ public class Shape2D extends Shape implements AreaCalculator {
     }
 
     private double getRegularPolygonArea(int sides, double length) {
-        if (sides < 3 || length == 0) return 0.0;
+        if (sides < 3 || length == 0)
+            return 0.0;
         return (Math.pow(sides * length, 2) * (1.0 / Math.tan(Math.PI / sides))) / 4;
     }
 
@@ -54,7 +56,8 @@ public class Shape2D extends Shape implements AreaCalculator {
                 break;
 
             case TRAPEZIUM:
-                area = getTrapeziumArea(this.attributes.get("a"), this.attributes.get("b"), this.attributes.get("height"));
+                area = getTrapeziumArea(this.attributes.get("a"), this.attributes.get("b"),
+                        this.attributes.get("height"));
                 break;
 
             case PARALLELOGRAM:
@@ -68,7 +71,7 @@ public class Shape2D extends Shape implements AreaCalculator {
             case POLYGON:
                 area = getRegularPolygonArea(this.attributes.get("sides").intValue(), this.attributes.get("length"));
                 break;
-        
+
             default:
                 area = 0.0;
                 break;

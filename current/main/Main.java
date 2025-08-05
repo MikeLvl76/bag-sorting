@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Main {
@@ -48,19 +49,25 @@ public class Main {
             ArrayList<Shape> copy = new ArrayList<>(shapes);
             int index = 0;
 
-            System.out.println("Colmuns index increments from 0 to the stack count - 1. Index increments from left to right");
-    
-            while(!copy.isEmpty()) {
+            System.out.println("The goal is to stack shapes following two rules:\n"
+                    + "\t1. A shape cannot be placed on top of another if it has a larger dimension.\n"
+                    + "\t2. A shape can only be stacked if its area or volume is less than that of the shape below.\n");
+            System.out.println(
+                    "Colmuns index increments from 0 to the stack count - 1. Index increments from left to right");
+
+            while (!copy.isEmpty()) {
                 System.out.println();
-                System.out.println(String.format("List of shapes: %s\n", copy.stream().map(shape -> shape.minimalDisplay()).toList()));
+                System.out.println(String.format("List of shapes: %s\n",
+                        copy.stream().map(shape -> shape.minimalDisplay()).toList()));
                 Shape current = copy.get(index);
 
                 System.out.println(String.format("Enter index to place this shape: %s", current.minimalDisplay()));
                 int colIndex = sc.nextInt();
                 boolean isIndexValid = colIndex >= 0 && colIndex < bag.stackCount();
 
-                while(!isIndexValid) {
-                    System.out.println(String.format("Index value must be within this range: [0, %d]", bag.stackCount() - 1));
+                while (!isIndexValid) {
+                    System.out.println(
+                            String.format("Index value must be within this range: [0, %d]", bag.stackCount() - 1));
                     colIndex = sc.nextInt();
                     isIndexValid = colIndex >= 0 && colIndex < bag.stackCount();
                 }
@@ -76,11 +83,16 @@ public class Main {
 
             sc.close();
         } catch (Exception e) {
-            if (e instanceof IllegalArgumentException) {
-                System.out.println(e.getMessage());
+            if (e instanceof NoSuchElementException) {
+                System.out.println(String.format("%s: %s", NoSuchElementException.class.getSimpleName(), e.getMessage()));
+            } else if (e instanceof IllegalArgumentException) {
+                System.out.println(String.format("%s: %s", IllegalArgumentException.class.getSimpleName(), e.getMessage()));
+            } else {
+                System.out.println("Error: " + e);
             }
+            System.exit(-1);
         }
-        
+
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -91,8 +103,8 @@ public class Main {
                 return;
             }
         }
- 
+
         commandLine();
-        
+
     }
 }

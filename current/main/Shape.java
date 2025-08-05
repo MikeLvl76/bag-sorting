@@ -25,7 +25,8 @@ public abstract class Shape {
     }
 
     protected double getAttributeValue(String key) {
-        if (!this.attributes.containsKey(key)) return 0.0;
+        if (!this.attributes.containsKey(key))
+            return 0.0;
         return this.attributes.get(key);
     }
 
@@ -37,7 +38,7 @@ public abstract class Shape {
         this.type = type;
     }
 
-    protected void updateAttributes(Map<String, Double> map){
+    protected void updateAttributes(Map<String, Double> map) {
         if (map == null || map.size() == 0) {
             return;
         }
@@ -55,7 +56,9 @@ public abstract class Shape {
     }
 
     public String minimalDisplay() {
-        return String.format("%s_%dD", this.type.getName().substring(0, 3).toUpperCase(), this.type.getDimension());
+        return String.format("%s_%dD (%.2f)", this.type.getName().substring(0, 3).toUpperCase(),
+                this.type.getDimension(),
+                this.type.getDimension() == 2 ? this.attributes.get("area") : this.attributes.get("volume"));
     }
 
     @Override
@@ -66,11 +69,11 @@ public abstract class Shape {
         builder.append(String.format("   dimension: %d,\n", this.type.getDimension()));
         int index = 0;
         for (Map.Entry<String, Double> entry : this.attributes.entrySet()) {
-            String format = "   %s: %.3g";
+            String formatted = "   %s: %.3g";
             if (index < this.attributes.size() - 1) {
-                format += ",\n";  
+                formatted += ",\n";
             }
-            builder.append(String.format(format, entry.getKey(), entry.getValue()));
+            builder.append(String.format(formatted, entry.getKey(), entry.getValue()));
             index++;
         }
         builder.append("\n  }");
