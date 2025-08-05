@@ -18,7 +18,7 @@ As mentionned, rules were not the same as now:
 
 # Run
 
-## Old
+## Old (On Windows)
 ```
 # On Windows
 javac old/main/*.java -d "old/out" ; java -cp old/out TestSacADos
