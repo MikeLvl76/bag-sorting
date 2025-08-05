@@ -18,6 +18,8 @@ As mentionned, rules were not the same as now:
 
 # Run
 
+Download the project [here](https://github.com/MikeLvl76/shapes-in-bag/archive/refs/heads/main.zip)
+
 ## Old (On Windows)
 ```
 # On Windows
